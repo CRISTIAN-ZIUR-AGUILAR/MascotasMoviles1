@@ -1,2 +1,5 @@
-# petsAguilar
-proyecto de desarrolla de aplicaciones moviles 1
+<<<<<<< HEAD
+Contenido actual del branch
+=======
+Contenido del commit conflictivo
+>>>>>>> cc346f5
