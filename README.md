@@ -1,5 +1,1 @@
-<<<<<<< HEAD
-Contenido actual del branch
-=======
-Contenido del commit conflictivo
->>>>>>> cc346f5
+Mi contenido local y contenido remoto desde GitHub
