@@ -209,5 +209,72 @@ class PetViewModel @Inject constructor(private val petUseCase: PetUseCase,
     ) : ViewModel() {
 
     }
+    fun exportPetsToXml(): String? {
+        return try {
+            val pets = _uiState.value.pets // Obtiene la lista de mascotas desde el estado
+            if (pets.isEmpty()) {
+                throw Exception("No hay mascotas para exportar")
+            }
+
+            // Generar el XML usando XmlSerializer
+            val writer = java.io.StringWriter()
+            val xmlSerializer = android.util.Xml.newSerializer()
+            xmlSerializer.setOutput(writer)
+
+            // Comienza el documento XML
+            xmlSerializer.startDocument("UTF-8", true)
+            xmlSerializer.startTag(null, "pets")
+
+            // Agrega cada mascota como nodo XML
+            for (pet in pets) {
+                xmlSerializer.startTag(null, "pet")
+
+                xmlSerializer.startTag(null, "id")
+                xmlSerializer.text(pet.id.toString())
+                xmlSerializer.endTag(null, "id")
+
+                xmlSerializer.startTag(null, "name")
+                xmlSerializer.text(pet.name)
+                xmlSerializer.endTag(null, "name")
+
+                xmlSerializer.startTag(null, "description")
+                xmlSerializer.text(pet.description)
+                xmlSerializer.endTag(null, "description")
+
+                xmlSerializer.startTag(null, "type")
+                xmlSerializer.text(pet.type)
+                xmlSerializer.endTag(null, "type")
+
+                xmlSerializer.startTag(null, "race")
+                xmlSerializer.text(pet.race)
+                xmlSerializer.endTag(null, "race")
+
+                xmlSerializer.startTag(null, "birthdate")
+                xmlSerializer.text(pet.birthdate)
+                xmlSerializer.endTag(null, "birthdate")
+
+                xmlSerializer.startTag(null, "image")
+                xmlSerializer.text(pet.image)
+                xmlSerializer.endTag(null, "image")
+
+                xmlSerializer.endTag(null, "pet")
+            }
+
+            // Finaliza el documento XML
+            xmlSerializer.endTag(null, "pets")
+            xmlSerializer.endDocument()
+
+            // Guarda el contenido XML en un archivo
+            val xmlContent = writer.toString()
+            val file = application.filesDir.resolve("pets_list.xml")
+            file.writeText(xmlContent)
+
+            file.absolutePath // Devuelve la ruta del archivo generado
+        } catch (e: Exception) {
+            e.printStackTrace()
+            null // Retorna null si hay un error
+        }
+    }
+
 
 }
